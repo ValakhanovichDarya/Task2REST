@@ -57,7 +57,7 @@ class BookDaoTest {
         }
     }
 
-    private void createBook() {
+    private void createBook() throws SQLException {
         try (Connection connection = bookDao.connectionManager.getConnection();
              Statement stmt = connection.createStatement()) {
             stmt.execute("INSERT INTO authors (name) VALUES ('Test Author');");
@@ -72,7 +72,7 @@ class BookDaoTest {
     }
 
     @Test
-    void testCreateBook() {
+    void testCreateBook() throws SQLException {
         createBook();
         Optional<Book> createdBook = bookDao.findById(1L);
 
@@ -81,7 +81,7 @@ class BookDaoTest {
     }
 
     @Test
-    void testFindAll() {
+    void testFindAll() throws SQLException {
         createBook();
 
         List<Book> books = bookDao.findAll();
@@ -90,7 +90,7 @@ class BookDaoTest {
     }
 
     @Test
-    void testFindById() {
+    void testFindById() throws SQLException {
         createBook();
 
         Optional<Book> book = bookDao.findById(1L);
@@ -100,7 +100,7 @@ class BookDaoTest {
     }
 
     @Test
-    void testUpdateBook() {
+    void testUpdateBook() throws SQLException {
         createBook();
         Optional<Book> bookOptional = bookDao.findById(1L);
         assertTrue(bookOptional.isPresent());
@@ -117,7 +117,7 @@ class BookDaoTest {
     }
 
     @Test
-    void testDeleteBook() {
+    void testDeleteBook() throws SQLException {
         createBook();
         Optional<Book> bookOptional = bookDao.findById(1L);
         assertTrue(bookOptional.isPresent());

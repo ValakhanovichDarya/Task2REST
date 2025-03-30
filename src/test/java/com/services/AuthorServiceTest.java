@@ -5,9 +5,11 @@ import com.model.entity.Author;
 import com.model.entity.Book;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,16 +25,16 @@ class AuthorServiceTest {
     @Mock
     private BookService bookService;
 
+    @InjectMocks
     private AuthorService authorService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        authorService = new AuthorService(authorDao, bookService);
     }
 
     @Test
-    void createNewAuthor() {
+    void createNewAuthor() throws SQLException {
         Author author = new Author(1, "Author One");
 
         authorService.createNewAuthor(author);
@@ -41,7 +43,7 @@ class AuthorServiceTest {
     }
 
     @Test
-    void findAllAuthors() {
+    void findAllAuthors() throws SQLException {
 
         Author author1 = new Author(1, "Author One");
         Author author2 = new Author(2, "Author Two");

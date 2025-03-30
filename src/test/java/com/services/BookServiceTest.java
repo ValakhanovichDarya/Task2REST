@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,14 +32,14 @@ class BookServiceTest {
     }
 
     @Test
-    void createNewBook() {
+    void createNewBook() throws SQLException {
         bookService.createNewBook(book);
 
         verify(bookDao, times(1)).create(book);
     }
 
     @Test
-    void findByAuthor() {
+    void findByAuthor() throws SQLException {
 
         Book book2 = new Book(2, "Book Two", 200, author);
 
@@ -54,14 +55,14 @@ class BookServiceTest {
     }
 
     @Test
-    void updateBook() {
+    void updateBook() throws SQLException {
         bookService.updateBook(book);
 
         verify(bookDao, times(1)).update(book);
     }
 
     @Test
-    void deleteBook() {
+    void deleteBook() throws SQLException{
         bookService.deleteBook(book);
 
         verify(bookDao, times(1)).delete(book);

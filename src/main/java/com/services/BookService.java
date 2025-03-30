@@ -4,6 +4,7 @@ import com.dao.BookDao;
 import com.model.entity.Author;
 import com.model.entity.Book;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class BookService {
@@ -12,10 +13,6 @@ public class BookService {
 
     private BookService() {
         bookDao = BookDao.getInstance();
-    }
-
-    public BookService(BookDao bookDao) {
-        this.bookDao = bookDao;
     }
 
     public static BookService getInstance() {
@@ -29,19 +26,19 @@ public class BookService {
         return INSTANCE;
     }
 
-    public void createNewBook(Book book){
+    public void createNewBook(Book book) throws SQLException {
         bookDao.create(book);
     }
 
-    public List<Book> findByAuthor(Author author){
+    public List<Book> findByAuthor(Author author) throws SQLException {
         return bookDao.findByAuthorId(author.getId());
     }
 
-    public void updateBook(Book book){
+    public void updateBook(Book book) throws SQLException {
         bookDao.update(book);
     }
 
-    public void deleteBook(Book book){
+    public void deleteBook(Book book) throws SQLException {
         bookDao.delete(book);
     }
 }

@@ -1,7 +1,8 @@
 package com.model.entity;
 
 
-public class Book extends BaseEntity{
+public class Book {
+    private long id;
     private String name;
     private int numberOfPages;
     private Author author;
@@ -16,10 +17,18 @@ public class Book extends BaseEntity{
     }
 
     public Book(long id, String name, int numberOfPages, Author author) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.numberOfPages = numberOfPages;
         this.author = author;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

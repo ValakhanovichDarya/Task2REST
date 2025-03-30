@@ -3,6 +3,7 @@ package com.services;
 import com.dao.AuthorDao;
 import com.model.entity.Author;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AuthorService {
@@ -13,11 +14,6 @@ public class AuthorService {
     private AuthorService() {
         authorDao = AuthorDao.getInstance();
         bookService = BookService.getInstance();
-    }
-
-    public AuthorService(AuthorDao authorDao, BookService bookService) {
-        this.authorDao = authorDao;
-        this.bookService = bookService;
     }
 
     public static AuthorService getInstance() {
@@ -31,11 +27,11 @@ public class AuthorService {
         return INSTANCE;
     }
 
-    public void createNewAuthor(Author author){
+    public void createNewAuthor(Author author) throws SQLException {
         authorDao.create(author);
     }
 
-    public List<Author> findAll(){
+    public List<Author> findAll() throws SQLException {
         List<Author> authors = authorDao.findAll();
         for(Author author: authors)
             author.setBooks(bookService.findByAuthor(author));

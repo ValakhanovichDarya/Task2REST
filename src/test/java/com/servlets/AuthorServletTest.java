@@ -1,5 +1,6 @@
 package com.servlets;
 
+import com.model.dto.AuthorDto;
 import com.model.dto.ResponseAuthorDto;
 import com.model.dto.ResponseBookDto;
 import com.model.entity.Author;
@@ -15,13 +16,14 @@ import org.mockito.MockedStatic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-class GetAllAuthorsServletTest {
+class AuthorServletTest {
 
     @Mock
     private HttpServletRequest request;
@@ -36,7 +38,7 @@ class GetAllAuthorsServletTest {
     private AuthorMapper authorMapper;
 
     @InjectMocks
-    private GetAllAuthorsServlet getAllAuthorsServlet;
+    private AuthorServlet authorServlet;
 
     @BeforeEach
     void setUp() {
@@ -44,7 +46,7 @@ class GetAllAuthorsServletTest {
     }
 
     @Test
-    void doGetToGetAllAuthors() throws IOException {
+    void doGetToGetAllAuthors() throws IOException, SQLException {
 
         Author author1 = new Author(1, "Author One");
         Author author2 = new Author(2, "Author Two");
@@ -75,12 +77,34 @@ class GetAllAuthorsServletTest {
             when(authorMapper.toResponseAuthorDto(author1)).thenReturn(responseAuthorDto1);
             when(authorMapper.toResponseAuthorDto(author2)).thenReturn(responseAuthorDto2);
 
-            getAllAuthorsServlet.doGet(request, response);
+            authorServlet.doGet(request, response);
 
             verify(authorService, times(1)).findAll();
             verify(authorMapper, times(1)).toResponseAuthorDto(author1);
             verify(authorMapper, times(1)).toResponseAuthorDto(author2);
             mockedServletsUtil.verify(() -> ServletsUtil.writeJson(response, dtos), times(1));
+        }
+    }
+
+    @Test
+    void doPostToCreateNewAuthor() throws SQLException{
+
+        String json = "{\"name\":\"Test Author\"}";
+
+        try (MockedStatic<AuthorMapper> mockedAuthorMapper = mockStatic(AuthorMapper.class);
+             MockedStatic<AuthorService> mockedAuthorService = mockStatic(AuthorService.class);
+             MockedStatic<ServletsUtil> mockedServletsUtil = mockStatic(ServletsUtil.class)) {
+
+            mockedAuthorMapper.when(AuthorMapper::getInstance).thenReturn(authorMapper);
+            mockedAuthorService.when(AuthorService::getInstance).thenReturn(authorService);
+            mockedServletsUtil.when(() -> ServletsUtil.readJson(request)).thenReturn(json);
+
+            when(authorMapper.toAuthor(any(AuthorDto.class))).thenReturn(new Author());
+            doNothing().when(authorService).createNewAuthor(any());
+
+            authorServlet.doPost(request, response);
+
+            verify(authorService, times(1)).createNewAuthor(any());
         }
     }
 }

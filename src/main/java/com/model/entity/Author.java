@@ -4,7 +4,8 @@ package com.model.entity;
 import java.util.List;
 import java.util.Objects;
 
-public class Author extends BaseEntity {
+public class Author {
+    private long id;
     private String name;
     private List<Book> books;
 
@@ -16,8 +17,16 @@ public class Author extends BaseEntity {
     }
 
     public Author(long id, String name) {
-        super(id);
+        this.id = id;
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

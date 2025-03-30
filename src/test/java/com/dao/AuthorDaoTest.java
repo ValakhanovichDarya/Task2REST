@@ -58,7 +58,7 @@ class AuthorDaoTest {
     }
 
     @Test
-    void testCreateAuthorAndFindById() {
+    void testCreateAuthorAndFindById() throws SQLException {
         Author author = new Author("Test Author");
         authorDao.create(author);
         Optional<Author> createdAuthor = authorDao.findById(1L);
@@ -68,7 +68,7 @@ class AuthorDaoTest {
     }
 
     @Test
-    void testFindAll() {
+    void testFindAll() throws SQLException {
         Author author = new Author("Test Author");
         authorDao.create(author);
 
