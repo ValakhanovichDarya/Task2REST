@@ -39,7 +39,7 @@ class AuthorServiceTest {
 
         authorService.createNewAuthor(author);
 
-        verify(authorDao, times(1)).create(author); // Проверяем, что метод create был вызван один раз
+        verify(authorDao, times(1)).create(author);
     }
 
     @Test

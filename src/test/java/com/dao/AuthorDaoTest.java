@@ -46,9 +46,7 @@ class AuthorDaoTest {
         cleanDatabase();
     }
 
-
-    @BeforeEach
-    void cleanDatabase() {
+    private void cleanDatabase() {
         try (Connection connection = authorDao.connectionManager.getConnection();
              Statement stmt = connection.createStatement()) {
             stmt.execute("DELETE FROM authors;");

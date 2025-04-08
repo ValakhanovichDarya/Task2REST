@@ -52,6 +52,8 @@ class BookDaoTest {
              Statement stmt = connection.createStatement()) {
             stmt.execute("DELETE FROM books;");
             stmt.execute("DELETE FROM authors;");
+            stmt.execute("ALTER TABLE books AUTO_INCREMENT = 1;");
+            stmt.execute("ALTER TABLE authors AUTO_INCREMENT = 1;");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
