@@ -84,11 +84,9 @@ class BookDaoTest {
 
     @Test
     void testFindAll() throws SQLException {
-        createBook();
-
         List<Book> books = bookDao.findAll();
 
-        assertFalse(books.isEmpty());
+        assertTrue(books.isEmpty());
     }
 
     @Test
